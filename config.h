@@ -68,6 +68,8 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[]  = { "firefox", NULL };
 static const char *brightness_up[]  =   { "change_brightness", "up", NULL };
 static const char *brightness_down[]  = { "change_brightness", "down", NULL };
+static const char *volume_up[]  =   { "change_volume", "up", NULL };
+static const char *volume_down[]  = { "change_volume", "down", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -123,6 +125,8 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
     { 0, XF86XK_MonBrightnessUp,	spawn,		{.v = brightness_up} },
     { 0, XF86XK_MonBrightnessDown,	spawn,		{.v = brightness_down} },
+    { 0, XF86XK_AudioRaiseVolume,  	spawn,		{.v = volume_up} },
+    { 0, XF86XK_AudioLowerVolume,  	spawn,		{.v = volume_down} },
 };
 
 /* button definitions */
