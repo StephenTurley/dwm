@@ -12,18 +12,21 @@ static const unsigned int gappov    = 20;       /* vert outer gap between window
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[] = { "monospace:size=8", "Mononoki Nerd Font:size=8:antialias=true:autohint=true" };
-static const char dmenufont[]       = "monospace:size=8";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#ebdbb2";
-static const char col_gray4[]       = "#1d2021";
-static const char col_green[]       = "#98971a";
-static const char col_red[]         = "#cc241d";
+static const char *fonts[] = { "monospace:size=12", "Mononoki Nerd Font:size=14:antialias=true:autohint=true" };
+
+static const char dmenufont[]       = "monospace:size=12";
+static const char col_black[]       = "#01060E";
+static const char col_red[]       = "#EA6C73";
+static const char col_green[]       = "#91B362";
+static const char col_yellow[]       = "#F9AF4F";
+static const char col_blue[]       = "#53BDFA";
+static const char col_magenta[]       = "#FAE994";
+static const char col_cyan[]       = "#90E1C6";
+static const char col_white[]       = "#C7C7C7";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray1, col_green,  col_red },
+	[SchemeNorm] = { col_white, col_black, col_white },
+	[SchemeSel]  = { col_blue, col_black,  col_blue },
 };
 
 /* tagging */
@@ -36,7 +39,6 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
@@ -64,9 +66,13 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_green, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = {
+    "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
+    "-nb", col_black, "-nf", col_blue,
+    "-sb", col_blue, "-sf", col_black,
+    NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
-static const char *browsercmd[]  = { "firefox", NULL };
+static const char *browsercmd[]  = { "brave", NULL };
 static const char *filecmd[]  = { "alacritty", "-e", "ranger", NULL };
 static const char *brightness_up[]  =   { "change_brightness", "up", NULL };
 static const char *brightness_down[]  = { "change_brightness", "down", NULL };
