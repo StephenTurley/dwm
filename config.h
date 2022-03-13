@@ -12,33 +12,35 @@ static const unsigned int gappov    = 20;       /* vert outer gap between window
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[] = { "monospace:size=12", "Mononoki Nerd Font:size=14:antialias=true:autohint=true" };
+static const char *fonts[] = { "monospace:size=12", "Mononoki Nerd Font:size=14:antialias=true:autohint=true", "JoyPixels:pixelsize=14::antialias=true:autohint=true" };
 
-static const char dmenufont[]       = "monospace:size=12";
-static const char col_black[]       = "#01060E";
-static const char col_red[]       = "#EA6C73";
-static const char col_green[]       = "#91B362";
-static const char col_yellow[]       = "#F9AF4F";
-static const char col_blue[]       = "#53BDFA";
-static const char col_magenta[]       = "#FAE994";
-static const char col_cyan[]       = "#90E1C6";
-static const char col_white[]       = "#C7C7C7";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_white, col_black, col_white },
-	[SchemeSel]  = { col_blue, col_black,  col_blue },
-};
+static const char dmenufont[]               = "monospace:size=12";
+static const char col_black[]               = "#01060E";
+static const char col_red[]                 = "#EA6C73";
+static const char col_bright_red[]          = "#F07178";
+static const char col_green[]               = "#91B362";
+static const char col_yellow[]              = "#F9AF4F";
+static const char col_blue[]                = "#53BDFA";
+static const char col_bright_blue[]         = "#59C2FF";
+static const char col_magenta[]             = "#FAE994";
+static const char col_cyan[]                = "#90E1C6";
+static const char col_white[]               = "#C7C7C7";
+static const char *colors[][3]              = {
+                /*               fg         bg         border   */
+                [SchemeNorm] = { col_white, col_black, col_white },
+                [SchemeSel]  = { col_blue, col_black,  col_bright_blue },
+            };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3" };
+static const char *tags[] = { "1", "2", "3", "4" };
 
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	/* class            instance        title                   tags mask   isfloating   monitor */
+	{ "Virt-manager",   "virt-manager", "games on QEMU/KVM",    1<<3,       0,           -1 },
 };
 
 /* layout(s) */
@@ -71,6 +73,8 @@ static const char *dmenucmd[] = {
     "-nb", col_black, "-nf", col_blue,
     "-sb", col_blue, "-sf", col_black,
     NULL };
+static const char *rofiruncmd[] = { "rofi", "-show", "run", NULL };
+static const char *emojicmd[] = { "rofi", "-show", "emoji", "-modi", "emoji", NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[]  = { "brave", NULL };
 static const char *filecmd[]  = { "alacritty", "-e", "ranger", NULL };
@@ -78,14 +82,18 @@ static const char *brightness_up[]  =   { "change_brightness", "up", NULL };
 static const char *brightness_down[]  = { "change_brightness", "down", NULL };
 static const char *volume_up[]  =   { "change_volume", "up", NULL };
 static const char *volume_down[]  = { "change_volume", "down", NULL };
+static const char *light[]  = { "light", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = rofiruncmd } },
+	{ MODKEY,                       XK_space,  spawn,          {.v = rofiruncmd } },
+	{ MODKEY,                       XK_e,      spawn,          {.v = emojicmd } },
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_f,      spawn,          {.v = filecmd } },
-	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_f,      spawn,          {.v = filecmd } },
+	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = light } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
@@ -114,7 +122,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -132,10 +139,10 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-    { 0, XF86XK_MonBrightnessUp,	spawn,		{.v = brightness_up} },
-    { 0, XF86XK_MonBrightnessDown,	spawn,		{.v = brightness_down} },
-    { 0, XF86XK_AudioRaiseVolume,  	spawn,		{.v = volume_up} },
-    { 0, XF86XK_AudioLowerVolume,  	spawn,		{.v = volume_down} },
+  { 0, XF86XK_MonBrightnessUp,	spawn,		{.v = brightness_up} },
+  { 0, XF86XK_MonBrightnessDown,	spawn,		{.v = brightness_down} },
+  { 0, XF86XK_AudioRaiseVolume,  	spawn,		{.v = volume_up} },
+  { 0, XF86XK_AudioLowerVolume,  	spawn,		{.v = volume_down} },
 };
 
 /* button definitions */
