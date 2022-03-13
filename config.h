@@ -92,7 +92,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_f,      spawn,          {.v = filecmd } },
-	{ MODKEY,                       XK_f,      spawn,          {.v = filecmd } },
 	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = light } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
